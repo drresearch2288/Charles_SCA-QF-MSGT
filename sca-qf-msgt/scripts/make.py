@@ -1,7 +1,4 @@
-"""Writes a small synthetic 12-lead cohort (NeuroKit2) and its manifest, for smoke tests.
 
-  python scripts/make_synthetic.py --out data/synthetic --patients 60
-"""
 import argparse
 import os
 import sys
