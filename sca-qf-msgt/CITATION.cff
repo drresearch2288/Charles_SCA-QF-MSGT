@@ -1,0 +1,8 @@
+cff-version: 1.2.0
+message: "If you use this code, please cite the article below."
+title: "SCA-QF-MSGT: A Multi-Scale Graph Transformer with Hybrid Quantum-Classical Feature Transformation for Early Prediction of Sudden Cardiac Arrest from ECG"
+authors:
+  - name: "Charles P"
+  - name: "Sountharrajan S"
+version: 1.0.0
+license: MIT

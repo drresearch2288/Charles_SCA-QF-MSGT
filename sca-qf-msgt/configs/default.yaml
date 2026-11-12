@@ -1,0 +1,49 @@
+# Configuration of SCA-QF-MSGT. Values follow Table 4 of the manuscript.
+seed: 0
+seeds: [0, 1, 2, 3, 4]          # five independent training runs
+
+data:
+  root: data/processed           # output of scripts/prepare_data.py
+  sources: [SCAOS, MIMIC-IV]     # primary 12-lead sources; SCD is external test only
+  fs: 510                        # resampling rate (Hz); 0.6 s window = 306 samples
+  bandpass: [0.5, 50.0]          # Butterworth band-pass, Equation (1)
+  filter_order: 4
+  window_s: 0.6                  # beat window centred on the R-peak, Equation (3)
+  rr_range_s: [0.3, 2.0]         # beats outside this RR range are discarded
+  max_bad_beat_frac: 0.20        # ECGs with more discarded beats are excluded
+  tau: 0.5                       # edge threshold, Equation (6)
+  horizon_h: 12                  # label horizon H, Section 3.3.8
+  split: [0.70, 0.15, 0.15]      # patient-level train / validation / test
+
+model:
+  in_dim: 4                      # node features, Equation (4)
+  hidden: 64
+  layers: 3                      # L, Section 3.7
+  heads: 5                       # M, Equation (11)
+  qubits: 4                      # n_q, Equation (13)
+  q_layers: 2                    # D, Equation (16)
+  quantum_block: circuit         # circuit | bottleneck_mlp | random_features | wide_mlp | none
+  quantum_backend: torch         # torch (exact state vector) | qiskit (Aer + TorchConnector)
+  dropout: 0.1
+
+loss:
+  focal_alpha: 0.25
+  focal_gamma: 2.0
+  lambda_t: 0.1                  # weight of L_time, Equation (26)
+  lambda_r: 1.0e-4               # L2 weight, Equation (26)
+  target_h: 6.0                  # tau_target, Equation (25)
+  temp: 0.05                     # T_s, Equation (25a)
+  use_time_loss: true
+
+train:
+  epochs: 100
+  batch_sequences: 5             # complete patient sequences per update
+  lr: 0.001
+  patience: 15                   # early stopping on validation AUPRC
+  delta_init: 0.5                # threshold used before the first validation pass
+  device: auto
+
+eval:
+  bootstrap: 2000                # patient-level resamples, Section 4.7
+  horizons: [1, 3, 6, 12]
+  ci: 0.95

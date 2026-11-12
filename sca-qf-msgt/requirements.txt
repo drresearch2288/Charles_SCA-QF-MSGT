@@ -1,0 +1,17 @@
+numpy>=1.24
+scipy>=1.10
+pandas>=2.0
+scikit-learn>=1.3
+pyyaml>=6.0
+tqdm>=4.65
+torch>=2.1
+neurokit2>=0.2.7
+wfdb>=4.1
+xgboost>=2.0
+matplotlib>=3.7
+# Qiskit backend of the circuit (model.quantum_backend=qiskit); the default torch backend
+# computes the same exact state vector and does not need these
+qiskit>=1.0
+qiskit-machine-learning>=0.8
+qiskit-aer>=0.14
+pytest>=7.0
