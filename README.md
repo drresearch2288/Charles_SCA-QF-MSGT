@@ -43,17 +43,6 @@ python -m pytest -q tests          # 13 tests, about 5 s on a CPU
 
 The default circuit backend (`model.quantum_backend: torch`) simulates the 16-amplitude state vector in PyTorch. Its outputs and gradients match the Qiskit backend (Qiskit Machine Learning `EstimatorQNN` with `TorchConnector` and parameter-shift gradients) to within 1e-7, as checked in `tests/test_quantum.py`. The Qiskit backend is much slower. Use it with `--set model.quantum_backend=qiskit` to reproduce the reported software stack exactly.
 
-## Quick start on synthetic data
-
-This runs the whole pipeline in a few minutes on a CPU. The data are synthetic, so the numbers mean nothing.
-
-```bash
-python scripts/make_synthetic.py --out data/synthetic --patients 30 --ecgs 3
-python scripts/prepare_data.py --manifest data/synthetic/manifest.csv --root data/synthetic \
-       --out data/processed_syn --keep-windows --hrv
-python scripts/train.py --data data/processed_syn/bundle.pt --out runs/syn --seeds 0 --set train.epochs=3
-python scripts/evaluate.py --pred "runs/syn/seed*/test_predictions.csv" --out results/syn --B 200
-```
 
 ## Data
 
